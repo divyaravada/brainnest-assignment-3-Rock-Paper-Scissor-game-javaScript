@@ -1,91 +1,98 @@
-let computerSelect = null;
-function computerPlay(computerSelect) {
-  let gamechoices = ["rock", "paper", "Scissor"];
-  return (computerSelect =
-    gamechoices[Math.floor(Math.random() * gamechoices.length)]);
+function playRound(playerSelection, computerSelection) {
+  if (
+    (playerSelection.toLowerCase() == "rock" &&
+      computerSelection[computerPlay] == "scissors") ||
+    (playerSelection.toLowerCase() == "paper" &&
+      computerSelection[computerPlay] == "rock") ||
+    (playerSelection.toLowerCase() == "scissors" &&
+      computerSelection[computerPlay] == "paper")
+  ) {
+    playerScore++;
+    return win;
+  } else if (
+    (playerSelection.toLowerCase() == "rock" &&
+      computerSelection[computerPlay] == "paper") ||
+    (playerSelection.toLowerCase() == "scissors" &&
+      computerSelection[computerPlay] == "rock") ||
+    (playerSelection.toLowerCase() == "paper" &&
+      computerSelection[computerPlay] == "scissors")
+  ) {
+    computerScore++;
+    return lose;
+  } else if (playerSelection.toLowerCase() == computerSelection[computerPlay]) {
+    tieScore++;
+    return tie;
+  } //if player input rock compare to rock, its a tie
+  else {
+    return "you must input rock, paper or scissors";
+  } //else if player input paper compare to rock, you win
 }
 
-let player = confirm("You want play the game?");
-if (player === true) {
-  alert("Come!! lets try");
-} else if (player === false) {
-  confirm("Try Again");
-} else {
-  alert("Thanks lets play");
-}
+let playerSelection = prompt("lets play rock papper scissors"); //define player, player input
+//let player = playerSelection.toLowerCase(); //convert user input to lowercase *old
+console.log("you choose " + playerSelection.toLowerCase()); //show user input in lowercase
 
-const scoreBoard = () => {
-  let playerScore = 0;
-  let computerScore = 0;
-  let ties = 0;
+let computerSelection = ["rock", "paper", "scissors"];
+let computerPlay = Math.floor(Math.random() * computerSelection.length);
+console.log(
+  "The computer choose " + computerPlay,
+  computerSelection[computerPlay]
+); //define computer input
 
-  for (let round = 0; round < 5; round++) {
-    let rounds = round + 1;
-    let computerChoice = computerPlay(computerSelect);
-    let playerChoice = null;
+//define scores
+let playerScore = 0;
+let computerScore = 0;
+let tieScore = 0;
 
-    playerChoice = prompt("pick one of the options: Rock,Paper,Scissor");
-    if (playerChoice === null) {
-      alert("Hmm you don't like the game?");
-      return;
-    }
-    playerChoice = playerChoice.toLocaleLowerCase();
-    if (
-      playerChoice !== "rock" &&
-      playerChoice !== "paper" &&
-      playerChoice !== "scissor"
-    ) {
-      rounds = round - 1;
-      alert("Went Wrong! Choose between Rock Paper & Scissor");
-      continue;
-    }
-    if (playerChoice === computerChoice) {
-      console.log("It was a tie!");
-      ties = ties + 1;
-    }
-    if (playerChoice == "rock" && computerChoice == "paper") {
-      console.log("You lost!, Paper beats Rock!") + computerScore + 1;
-      computerScore = computerScore + 1;
-    }
-    if (playerChoice == "paper" && computerChoice == "scissor") {
-      console.log("You lost!, Scissor beats Paper!");
-      computerScore = computerScore + 1;
-    }
-    if (playerChoice == "scissor" && computerChoice == "rock") {
-      console.log("You lost!, Rock beats Scissor!");
-      computerScore = computerScore + 1;
-    }
-    if (playerChoice == "paper" && computerChoice == "rock") {
-      console.log("You won!, Paper beats Rock!") + (playerScore + 1);
-      playerScore = playerScore + 1;
-    }
-    if (playerChoice == "scissor" && computerChoice == "paper") {
-      console.log("You won!, Scissor beats paper!");
-      playerScore = playerScore + 1;
-    }
-    if (playerChoice == "rock" && computerChoice == "scissor") {
-      console.log("You won!, Rock beats Scissor!");
-      playerScore = playerScore + 1;
-    }
+//define win, lose or tie
+const win = "You Win this round!\n -------"; //define win
+const lose = "You Lose this round!\n -------"; //define lose
+const tie = "This round is a tie!\n -------"; //define tie
+
+//define playround
+console.log(playRound(playerSelection, computerSelection));
+
+//loop
+function game() {
+  for (let i = 0; i < 5; i++) {
+    //what is going to be loop
+    let playerSelection = prompt("lets play rock papper scissors"); //define player, player input
+
+    console.log("you choose " + playerSelection.toLowerCase()); //show user input in lowercase
+
+    let computerSelection = ["rock", "paper", "scissors"];
+    let computerPlay = Math.floor(Math.random() * computerSelection.length);
+
     console.log(
-      "Round " +
-        rounds +
-        "\ncomputer's choice = " +
-        computerChoice +
-        "\nYour choice = " +
-        playerChoice +
-        "\nPlayer's Score:" +
-        playerScore +
-        "\nComputers Score:" +
-        computerScore
-    );
+      "The computer choose " + computerPlay,
+      computerSelection[computerPlay]
+    ); //define computer input
+
+    console.log(playRound(playerSelection, computerSelection));
   }
-  if (playerScore >= 3) {
-    console.log("Best of 5: Hurray You win!");
-  } else if (computerScore >= 3) {
-    console.log("Best of 5: Computer win!! \nYou loose the game");
+  if (playerScore > computerScore) {
+    return "You Win this game.\n -------";
+  }
+  if (playerScore == computerScore) {
+    return "This game is a tie.\n -------";
   } else {
-    console.log("Its a tie!");
+    return "You Lose this game.\n -------";
   }
-};
-scoreBoard();
+}
+
+console.log(game()); //play the loop
+
+console.log(
+  "Your final score is " +
+    playerScore +
+    " wins " +
+    computerScore +
+    " loses and " +
+    tieScore +
+    " draws.\n -------"
+);
+
+let score = playerScore + computerScore + tieScore;
+
+console.log("You played this game " + score + " times.\n -------\nGame over.");
+//count win lose or tie
